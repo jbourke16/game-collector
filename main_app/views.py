@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
-from .models import Game, Developer
-from .serializers import GameSerializer, DeveloperSerializer
+from .models import Game, Developer, Type
+from .serializers import GameSerializer, DeveloperSerializer, TypeSerializer
 
 # Create your views here.
 class Home(APIView):
@@ -39,3 +39,13 @@ class DeveloperDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         game_id = self.kwargs['game_id']
         return Developer.objects.filter(game_id=game_id)
+    
+class TypeList(generics.ListCreateAPIView):
+    queryset = Type.objects.all()
+    serializer_class = TypeSerializer
+
+class TypeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Type.objects.all()
+    serializer_class = TypeSerializer
+    lookup_field = 'id'
+

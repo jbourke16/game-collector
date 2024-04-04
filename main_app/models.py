@@ -41,3 +41,9 @@ class Developer(models.Model):
     
     class Meta:
         ordering = ['-date']
+
+class Type(models.Model):
+    genre = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.genre
