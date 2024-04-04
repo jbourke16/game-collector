@@ -20,6 +20,18 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GameSerializer
     lookup_field = 'id'
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+
+        genres_not_associated = Type.objects.exclude(id__in=instance.genres.all())
+        genres_serializer = TypeSerializer(genres_not_associated, many=True)
+
+        return Response({
+            'game': serializer.data,
+            'genres_not_associated': genres_serializer.data
+        })
+
 class DeveloperListCreate(generics.ListCreateAPIView):
     serializer_class = DeveloperSerializer
 
@@ -48,4 +60,12 @@ class TypeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
     lookup_field = 'id'
+
+class AddGenreToGame(APIView):
+  def post(self, request, game_id, genre_id):
+    cat = Game.objects.get(id=game_id)
+    type = Type.objects.get(id=genre_id)
+    game.genres.add(genre)
+    return Response({'message': f'Genre {type.genre} added to Game {game.title}'})
+
 

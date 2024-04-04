@@ -19,9 +19,17 @@ STUDIOS = (
     ('SE', 'SEGA'),
     ('V', 'Valve')
 )
+
+class Type(models.Model):
+    genre = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.genre
+
 class Game(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
+    genres = models.ManyToManyField(Type)
 
     def __str__(self):
         return self.title
@@ -41,9 +49,3 @@ class Developer(models.Model):
     
     class Meta:
         ordering = ['-date']
-
-class Type(models.Model):
-    genre = models.CharField(max_length=150)
-
-    def __str__(self):
-        return self.genre
