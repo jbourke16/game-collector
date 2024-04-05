@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Home, GameList, GameDetail, DeveloperListCreate, DeveloperDetail, TypeList, TypeDetail, AddGenreToGame
+from .views import Home, GameList, GameDetail, DeveloperListCreate, DeveloperDetail, TypeList, TypeDetail, AddGenreToGame, CreateUserView, LoginView, VerifyUserView
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
@@ -10,5 +10,8 @@ urlpatterns = [
     path('type/', TypeList.as_view(), name='type-list'),
     path('type/<int:id>', TypeDetail.as_view(), name='type-detail'),
     path('games/<int:game_id>/add_genre/<int:genre_id>/', AddGenreToGame.as_view(), name='add-genre-to-game'),
+    path('users/register/', CreateUserView.as_view(), name='register'),
+    path('users/login/', LoginView.as_view(), name='login'),
+    path('users/token/refresh/', VerifyUserView.as_view(), name='token_refresh')
 
 ]
